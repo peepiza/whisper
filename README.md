@@ -1,5 +1,7 @@
 # Шёпот — игра-платформер с управлением голосом
 
+ https://peepiza.github.io/whisper/
+
 <div align="center">
   
   ![Версия](https://img.shields.io/badge/version-1.0.0-blue)
