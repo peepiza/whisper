@@ -1,0 +1,22 @@
+{
+    "name": "Шёпот",
+    "short_name": "Шёпот",
+    "description": "Игра-платформер с управлением голосом",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#1a1a2e",
+    "background_color": "#0a0a0f",
+    "orientation": "landscape",
+    "icons": [
+        {
+            "src": "assets/ico-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/ico-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

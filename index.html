@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Шёпот — игра-платформер с управлением голосом</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+<div id="game-container">
+    <canvas id="game-canvas" width="1280" height="720"></canvas>
+    
+    <div id="menu-screen" class="screen active">
+        <div class="menu-content">
+            <h1 class="game-title">ШЁПОТ</h1>
+            <p>Говорите, чтобы увидеть свой путь</p>
+            <button id="start-btn" class="btn btn-primary">Начать игру</button>
+            <button id="install-btn" class="btn btn-secondary" style="display: none;">Установить игру</button>
+            <div class="controls-info">
+                <p>← → движение | ↑ прыжок | ESC пауза</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="calibrate-screen" class="screen">
+        <div class="menu-content">
+            <h2>Калибровка микрофона</h2>
+            <p>Пожалуйста, говорите шёпотом...</p>
+            <div class="calibration-animation">
+                <div class="mic-icon">🎙️</div>
+                <div class="sound-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div id="calibrate-progress" class="progress-fill"></div>
+            </div>
+            <p id="calibrate-status" class="calibrate-status">Определение фонового шума...</p>
+        </div>
+    </div>
+    
+    <div id="game-hud" class="hud">
+        <div>ШКАЛА ШУМА</div>
+        <div class="danger-bar-container">
+            <div id="danger-fill" class="danger-fill"></div>
+        </div>
+        <div>ГРОМКОСТЬ</div>
+        <div class="volume-bar-container">
+            <div id="volume-fill" class="volume-fill"></div>
+        </div>
+    </div>
+    
+    <div id="win-screen" class="screen">
+        <div class="menu-content">
+            <h2>ПОБЕДА!</h2>
+            <p id="win-time" class="win-time"></p>
+            <p id="new-record" class="new-record" style="display: none;"></p>
+            <button id="play-again-btn" class="btn btn-primary">Попробовать снова</button>
+            <button id="win-menu-btn" class="btn btn-secondary">Главное меню</button>
+        </div>
+    </div>
+    
+    <div id="lose-screen" class="screen">
+        <div class="menu-content">
+            <h2>ПРОИГРЫШ</h2>
+            <p id="lose-reason" class="lose-reason"></p>
+            <button id="retry-btn" class="btn btn-primary">Попробовать снова</button>
+            <button id="lose-menu-btn" class="btn btn-secondary">Главное меню</button>
+        </div>
+    </div>
+    
+    <div id="pause-screen" class="screen">
+    <div class="menu-content">
+        <div class="pause-icon">⏸</div>
+        <h2>ПАУЗА</h2>
+        <p>Нажмите ESC, чтобы продолжить</p>
+        <button id="resume-btn" class="btn btn-primary">Продолжить игру</button>
+        <button id="quit-pause-btn" class="btn btn-secondary">Выйти в меню</button>
+    </div>
+</div>
+<script src="js/progressManager.js"></script>
+<script src="js/audioManager.js"></script>
+<script src="js/platform.js"></script>
+<script src="js/level.js"></script>
+<script src="js/player.js"></script>
+<script src="js/game.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
