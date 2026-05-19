@@ -1,12 +1,16 @@
 # Шёпот — игра-платформер с управлением голосом
 
 <div align="center">
+
   
-  ![Версия](https://img.shields.io/badge/version-1.0.0-blue)
-  ![Лицензия](https://img.shields.io/badge/license-MIT-green)
+  ![Version](https://img.shields.io/badge/version-1.0.0-blue)
   ![PWA](https://img.shields.io/badge/PWA-ready-purple)
   
   **Говорите, чтобы видеть платформы. Молчите, чтобы не разбудить тьму.**
+  
+  ## Играть прямо сейчас!
+  
+   **[https://peepiza.github.io/whisper/](https://peepiza.github.io/whisper/)** 
   
 </div>
 
@@ -84,5 +88,5 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/ваш-username/whisper-game.git
-   cd whisper-game
+   git clone https://github.com/peepiza/whisper.git
+   cd whisper
