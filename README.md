@@ -1,6 +1,8 @@
 # Шёпот — игра-платформер с управлением голосом
 
 <div align="center">
+
+ФФФФФФФЫЫЫЫ
   
   ![Version](https://img.shields.io/badge/version-1.0.0-blue)
   ![PWA](https://img.shields.io/badge/PWA-ready-purple)
