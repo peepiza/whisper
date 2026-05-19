@@ -3,10 +3,9 @@
 <div align="center">
   
   ![Версия](https://img.shields.io/badge/version-1.0.0-blue)
-  ![Лицензия](https://img.shields.io/badge/license-MIT-green)
   ![PWA](https://img.shields.io/badge/PWA-ready-purple)
   
-  **Говорите, чтобы видеть платформы. Молчите, чтобы не разбудить тьму.**
+  **Говорите, чтобы увидеть путь. Молчите, чтобы не разбудить тьму.**
   
 </div>
 
