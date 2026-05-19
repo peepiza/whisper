@@ -1,6 +1,6 @@
 # Шёпот — игра-платформер с управлением голосом
 
- https://peepiza.github.io/whisper/
+ [Сылка на игру](https://peepiza.github.io/whisper/)
 
 <div align="center">
   
