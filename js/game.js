@@ -1,41 +1,47 @@
 class Game {
     constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.audioManager = new AudioManager();
-        this.progressManager = new ProgressManager();
-        this.level = null;
-        this.player = null;
-        this.gameState = 'menu';
-        this.input = { left: false, right: false, jump: false };
-        this.cameraX = 0;
-        this.startTime = 0;
-        this.elapsedTime = 0;
-        this.lastTimestamp = 0;
-        this.animationId = null;
-        
-        this.dangerFill = document.getElementById('danger-fill');
-        this.volumeFill = document.getElementById('volume-fill');
-        this.gameHud = document.getElementById('game-hud');
-        
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleKeyUp = this.handleKeyUp.bind(this);
-        
-        // Загрузка фонового изображения
-        this.backgroundImage = new Image();
-        this.backgroundImage.src = 'assets/cave.jpg';
-        this.backgroundLoaded = false;
-        this.backgroundImage.onload = () => {
-            this.backgroundLoaded = true;
-            console.log('Фоновое изображение загружено');
-        };
-        this.backgroundImage.onerror = () => {
-            console.error('Не удалось загрузить фон: assets/cave.jpg');
-        };
-        
-        window.addEventListener('keydown', this.handleKeyDown);
-        window.addEventListener('keyup', this.handleKeyUp);
-    }
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.audioManager = new AudioManager();
+    this.progressManager = new ProgressManager();
+    this.level = null;
+    this.player = null;
+    this.gameState = 'menu';
+    this.input = { left: false, right: false, jump: false };
+    this.cameraX = 0;
+    this.startTime = 0;
+    this.elapsedTime = 0;
+    this.lastTimestamp = 0;
+    this.animationId = null;
+    
+    this.dangerFill = document.getElementById('danger-fill');
+    this.volumeFill = document.getElementById('volume-fill');
+    this.gameHud = document.getElementById('game-hud');
+    
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    
+    // ВАЖНО: устанавливаем фокус на canvas
+    this.canvas.setAttribute('tabindex', '0');
+    this.canvas.style.outline = 'none';
+    this.canvas.addEventListener('click', () => this.canvas.focus());
+    
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
+    
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = 'assets/cave.jpg';
+    this.backgroundLoaded = false;
+    this.backgroundImage.onload = () => {
+        this.backgroundLoaded = true;
+        console.log('Фоновое изображение загружено');
+    };
+    this.backgroundImage.onerror = () => {
+        console.error('Не удалось загрузить фон: assets/cave.jpg');
+    };
+    
+    this.showScreen = this.showScreen.bind(this);
+}
     
     handleKeyDown(e) {
         if (this.gameState === 'playing') {
@@ -101,6 +107,8 @@ class Game {
         this.hideAllScreens();
         if (this.gameHud) this.gameHud.classList.add('visible');
         this.startTime = performance.now() / 1000;
+        const helpBtn = document.getElementById('help-btn-game');
+        if (helpBtn) helpBtn.style.display = 'flex';
         
         if (this.animationId) cancelAnimationFrame(this.animationId);
         this.lastTimestamp = 0;

@@ -14,15 +14,47 @@
 <div id="game-container">
     <canvas id="game-canvas" width="1280" height="720"></canvas>
     
+    <!-- Кнопка инструкции в игре -->
+    <button id="help-btn-game" class="help-btn-game" style="display: none;">❔</button>
+    
     <div id="menu-screen" class="screen active">
         <div class="menu-content">
             <h1 class="game-title">ШЁПОТ</h1>
             <p>Говорите, чтобы увидеть свой путь</p>
-            <button id="start-btn" class="btn btn-primary">Начать игру</button>
+            <button id="start-btn" class="btn btn-primary">Начать путь</button>
+            <button id="help-btn-menu" class="btn btn-secondary">Как найти путь</button>
             <button id="install-btn" class="btn btn-secondary" style="display: none;">Установить игру</button>
+            <button id="clear-cache-btn" class="btn btn-secondary" style="display: none;">Очистить кэш</button>
             <div class="controls-info">
                 <p>← → движение | ↑ прыжок | ESC пауза</p>
             </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно с инструкцией -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>История о потерявшемся светлячке</h2>
+            <p>Вы — маленький светлячок, который заблудился в глубокой пещере. Здесь нет ни лучей света, ни эха — только холодный камень и древняя Тьма, что прячется в углах. Тьма слепа, но она слышит каждый ваш шорох. Слишком громкий звук — и она найдёт вас. Слишком тихо — и вы упадёте в бездну.</p>
+            <p>Единственный способ ориентироваться — использовать свой голос. Когда вы говорите, вокруг вас разгорается мягкое свечение, освещая ближайшие платформы. Чем громче вы говорите — тем дальше видно, но тем выше шанс разбудить Тьму.</p>
+            
+            <h3>Управление</h3>
+            <p><strong>← →</strong> — движение влево / вправо</p>
+            <p><strong>↑</strong> — прыжок</p>
+            <p><strong>ESC</strong> — пауза</p>
+            
+            <h3></h3> Микрофон</h3>
+            <p><strong>Шепчите</strong> — платформы появятся вокруг вас</p>
+            <p><strong>Говорите громче</strong> — радиус освещения увеличится</p>
+            <p><strong>Слишком громко или долго</strong> — Тьма услышит вас, и вы проиграете</p>
+            
+            <h3>Три причины проигрыша</h3>
+            <p>• <strong>Тьма услышала тебя...</strong> — вы были слишком громкими</p>
+            <p>• <strong>Пещера небезопасна...</strong> — вы наступили на шипы</p>
+            <p>• <strong>Пещера оказалась глубока...</strong> — вы упали вниз</p>
+            
+            <button id="close-help-btn" class="btn btn-primary">Понятно, начнем!</button>
         </div>
     </div>
     
@@ -59,7 +91,7 @@
             <h2>ПОБЕДА!</h2>
             <p id="win-time" class="win-time"></p>
             <p id="new-record" class="new-record" style="display: none;"></p>
-            <button id="play-again-btn" class="btn btn-primary">Попробовать снова</button>
+            <button id="play-again-btn" class="btn btn-primary">Играть снова</button>
             <button id="win-menu-btn" class="btn btn-secondary">Главное меню</button>
         </div>
     </div>
@@ -74,14 +106,16 @@
     </div>
     
     <div id="pause-screen" class="screen">
-    <div class="menu-content">
-        <div class="pause-icon">⏸</div>
-        <h2>ПАУЗА</h2>
-        <p>Нажмите ESC, чтобы продолжить</p>
-        <button id="resume-btn" class="btn btn-primary">Продолжить игру</button>
-        <button id="quit-pause-btn" class="btn btn-secondary">Выйти в меню</button>
+        <div class="menu-content">
+            <div class="pause-icon">⏸</div>
+            <h2>ПАУЗА</h2>
+            <p>Нажмите ESC, чтобы продолжить</p>
+            <button id="resume-btn" class="btn btn-primary">Продолжить игру</button>
+            <button id="quit-pause-btn" class="btn btn-secondary">Выйти в меню</button>
+        </div>
     </div>
 </div>
+
 <script src="js/progressManager.js"></script>
 <script src="js/audioManager.js"></script>
 <script src="js/platform.js"></script>

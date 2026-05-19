@@ -5,50 +5,105 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== PWA УСТАНОВКА =====
     let deferredPrompt;
     const installBtn = document.getElementById('install-btn');
+    const clearCacheBtn = document.getElementById('clear-cache-btn');
     
-    // Проверяем, установлено ли уже приложение
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                          window.navigator.standalone === true;
     
-    // Событие beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
         console.log('beforeinstallprompt сработал');
         e.preventDefault();
         deferredPrompt = e;
-        
-        // Показываем кнопку, если приложение НЕ установлено
         if (!isStandalone && installBtn) {
             installBtn.style.display = 'block';
-            installBtn.textContent = 'Установить игру';
-            console.log('Кнопка установки показана');
         }
     });
     
-    // Обработчик кнопки установки
     if (installBtn) {
         installBtn.onclick = async () => {
-            console.log('Нажата кнопка установки');
             if (deferredPrompt) {
-                // Показываем диалог установки
                 deferredPrompt.prompt();
                 const result = await deferredPrompt.userChoice;
                 console.log('Результат установки:', result.outcome);
-                
-                if (result.outcome === 'accepted') {
-                    console.log('Приложение установлено');
-                    installBtn.style.display = 'none';
-                }
                 deferredPrompt = null;
-            } else {
-                alert('Установка недоступна. Попробуйте обновить страницу.');
+                installBtn.style.display = 'none';
             }
         };
     }
     
-    // Скрываем кнопку, если приложение уже установлено
     if (isStandalone && installBtn) {
         installBtn.style.display = 'none';
     }
+    
+    // Кнопка очистки кэша — ПОКАЗЫВАЕМ ВСЕГДА (для отладки)
+    if (clearCacheBtn) {
+        clearCacheBtn.style.display = 'block';
+        clearCacheBtn.onclick = async () => {
+            if (confirm('Очистить кэш и перезагрузить игру?')) {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                }
+                alert('Кэш очищен! Страница будет перезагружена.');
+                window.location.reload();
+            }
+        };
+    }
+    
+    // ===== МОДАЛЬНОЕ ОКНО ИНСТРУКЦИИ =====
+    const modal = document.getElementById('help-modal');
+    const helpBtnMenu = document.getElementById('help-btn-menu');
+    const helpBtnGame = document.getElementById('help-btn-game');
+    const closeModal = document.querySelector('.close-modal');
+    const closeHelpBtn = document.getElementById('close-help-btn');
+    
+    function openModal() {
+        if (modal) modal.classList.add('active');
+    }
+    
+    function closeModalFunc() {
+        if (modal) modal.classList.remove('active');
+    }
+    
+    if (helpBtnMenu) {
+        helpBtnMenu.onclick = (e) => {
+            e.preventDefault();
+            openModal();
+        };
+    }
+    
+    if (helpBtnGame) {
+        helpBtnGame.onclick = (e) => {
+            e.preventDefault();
+            openModal();
+        };
+    }
+    
+    if (closeModal) closeModal.onclick = closeModalFunc;
+    if (closeHelpBtn) closeHelpBtn.onclick = closeModalFunc;
+    
+    window.onclick = (e) => {
+        if (e.target === modal) closeModalFunc();
+    };
+    
+    // Переопределяем метод showScreen игры, чтобы показывать/скрывать кнопку "?"
+    const originalShowScreen = game.showScreen.bind(game);
+    game.showScreen = function(screenId) {
+        originalShowScreen(screenId);
+        if (helpBtnGame) {
+            if (screenId === 'game-hud' || this.gameState === 'playing') {
+                helpBtnGame.style.display = 'flex';
+            } else {
+                helpBtnGame.style.display = 'none';
+            }
+        }
+    };
     
     // ===== КНОПКИ МЕНЮ =====
     const startBtn = document.getElementById('start-btn');
@@ -66,13 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const loseMenuBtn = document.getElementById('lose-menu-btn');
     if (loseMenuBtn) loseMenuBtn.onclick = () => game.quitToMenu();
     
-    // Кнопки паузы
     const resumeBtn = document.getElementById('resume-btn');
     if (resumeBtn) {
         resumeBtn.onclick = () => {
             game.gameState = 'playing';
             game.hideAllScreens();
             game.lastTimestamp = 0;
+            if (game.animationId) cancelAnimationFrame(game.animationId);
             game.animationId = requestAnimationFrame((ts) => game.gameLoop(ts));
         };
     }
@@ -82,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     game.showScreen('menu-screen');
     
-    // Регистрация Service Worker
+    // Service Worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(reg => {
             console.log('Service Worker зарегистрирован:', reg);
